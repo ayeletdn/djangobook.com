@@ -1107,17 +1107,8 @@ framework where you store your templates. The place to do this is in your
 settings file -- the ``settings.py`` file that we mentioned last chapter, when
 we introduced the ``ROOT_URLCONF`` setting.
 
-If you're following along, open your ``settings.py`` and find the
-``TEMPLATE_DIRS`` setting. By default, it's an empty tuple, likely containing
-some auto-generated comments::
-
-    TEMPLATE_DIRS = (
-        # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-        # Always use forward slashes, even on Windows.
-        # Don't forget to use absolute paths, not relative paths.
-    )
-
-This setting tells Django's template-loading mechanism where to look for
+If you're following along, open your ``settings.py`` and add the
+``TEMPLATE_DIRS`` setting. This setting tells Django's template-loading mechanism where to look for
 templates. Pick a directory where you'd like to store your templates and add it
 to ``TEMPLATE_DIRS``, like so::
 
@@ -1168,17 +1159,17 @@ There are a few things to note:
   settings files are just Python code by constructing the contents of
   ``TEMPLATE_DIRS`` dynamically. For example::
 
-      import os.path
+      from os.path import join
 
       TEMPLATE_DIRS = (
-          os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+          join(BASE_DIR,  'templates'),
       )
 
-  This example uses the "magic" Python variable ``__file__``, which is
-  automatically set to the file name of the Python module in which the code
-  lives. It gets the name of the directory that contains ``settings.py``
-  (``os.path.dirname``), then joins that with ``templates`` in a
-  cross-platform way (``os.path.join``), then ensures that everything uses
+  This example uses the BASE_DIR variable which in turn uses the "magic" Python 
+  variable ``__file__``, which is automatically set to the file name of the 
+  Python module in which the code lives. It gets the name of the directory that 
+  contains ``settings.py`` (``os.path.dirname``), then joins that with ``templates`` 
+  in a cross-platform way (``os.path.join``), then ensures that everything uses
   forward slashes instead of backslashes (in case of Windows).
 
   While we're on the topic of dynamic Python code in settings files, we
